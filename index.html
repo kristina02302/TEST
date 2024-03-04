@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валидация номера телефона</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #phoneForm {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        #countryResult {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<form id="phoneForm">
+    <label for="phoneNumber">Номер телефона:</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Пример: +(373)12345678">
+    <p id="countryResult"></p>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#phoneNumber").on("input", function () {
+            var phoneNumber = $(this).val();
+
+            // Отправляем запрос на сервер для определения страны
+            $.ajax({
+                url: 'validate.php',
+                method: 'POST',
+                data: { phoneNumber: phoneNumber },
+                success: function (response) {
+                    $("#countryResult").text(response);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
